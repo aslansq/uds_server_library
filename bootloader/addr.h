@@ -1,0 +1,20 @@
+#ifndef ADDR_H
+#define ADDR_H
+
+#include <stdint.h>
+
+#define ADDR_RAM 0x20000000
+#define ADDR_RAM_LENGTH  30716
+#define ADDR_BL_FLAG 0x200077FC
+#define ADDR_FLASH 0x8000000
+#define ADDR_FLASH_LENGTH  65536
+#define ADDR_APP 0x8010000
+#define ADDR_APP_LENGTH  196608
+
+#define ADDR_BL_FLAG_PTR ((volatile uint32_t *)ADDR_BL_FLAG)
+#define ADDR_BL_FLAG_NONE 0
+#define ADDR_BL_FLAG_SWITCH_PROG_SESS 123
+#define ADDR_BL_FLAG_SWITCH_EXTD_SESS 456
+#define ADDR_BL_FLAG_SWITCH_GO_TO_APP 789
+
+#endif // ADDR_H
