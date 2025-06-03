@@ -1,4 +1,4 @@
-# uds_server_demo
+# uds_server_library demos
 
 It contains demo configuration for both bootloader and application, showcasing how UDS services can be integrated and tested in different firmware contexts.
 
