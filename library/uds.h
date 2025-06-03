@@ -17,6 +17,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#define UDS_MAJOR_VERSION 0 //!< Major version of the UDS implementation
+#define UDS_MINOR_VERSION 1 //!< Minor version of the UDS implementation
+#define UDS_PATCH_VERSION 0 //!< Patch version of the UDS implementation
+
 //! Diagnostic sessions defined by UDS protocol
 #define UDS_DIAG_SESS_DEFAULT ((uint8_t)0x01) //!< Default diagnostic session
 #define UDS_DIAG_SESS_PROG ((uint8_t)0x02) //!< Programming diagnostic session
@@ -192,7 +196,6 @@ typedef struct {
 	int8_t num_diag_sess; //!< number of allowed diagnostic sessions for this RID
 	uint64_t run_timeout_ms; //!< timeout for running this RID in milliseconds
 	uint64_t start_time_ms; //!< start timestamp of the RID in milliseconds
-	uint64_t server_resp_time_ms; //!< server response timestamp for the RID in milliseconds
 	uds_rid_func_ptr_t func_ptr; //!< function pointer to the RID function
 } uds_rid_s;
 
@@ -261,6 +264,7 @@ typedef struct {
 	uint32_t security_access : 1;
 	uint32_t routine_ctrl : 1;
 	uint32_t write_data_by_id : 1;
+	uint32_t read_data_by_id : 1;
 	uint32_t routine_download : 1;
 	uint32_t req_transfer_exit : 1;
 	uint32_t transfer_data : 1;

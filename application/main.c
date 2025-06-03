@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "uds.h"
 #include "addr.h"
+#include "uds_config.h"
 
 #define UDS_RESP_ID (0x761)
 #define UDS_REQ_ID (0x760)
@@ -123,7 +124,7 @@ int main(void)
 		uds_handler();
 
 		// blink
-		if(abs_tim_get_elapsed(led_timestamp) >= 50) {
+		if(abs_tim_get_elapsed(led_timestamp) >= uds_config_get_blink_delay_ms()) {
 			led_timestamp = abs_tim_get();
 #ifdef USE_LED_BLUE
 			HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_9);

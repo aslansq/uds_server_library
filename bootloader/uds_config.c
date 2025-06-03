@@ -370,8 +370,7 @@ static uds_rid_s _rid_arr[] = {
 		.num_diag_sess = sizeof(_all_diag_sess_arr),
 		.run_timeout_ms = 5000, // 5 seconds
 		.func_ptr = uds_rid_check_prog_precond, // user function to check preconditions
-		.start_time_ms = 0,
-		.server_resp_time_ms = 0
+		.start_time_ms = 0
 	},
 	{ // erase flash
 		.curr_state = UDS_RID_STATE_IDLE,
@@ -385,8 +384,7 @@ static uds_rid_s _rid_arr[] = {
 		.num_diag_sess = sizeof(_all_diag_sess_arr),
 		.run_timeout_ms = 5000, // 5 seconds
 		.func_ptr = uds_rid_erase_flash, // user function to erase flash
-		.start_time_ms = 0,
-		.server_resp_time_ms = 0
+		.start_time_ms = 0
 	},
 	{ // check memory
 		.curr_state = UDS_RID_STATE_IDLE,
@@ -400,8 +398,7 @@ static uds_rid_s _rid_arr[] = {
 		.num_diag_sess = sizeof(_all_diag_sess_arr),
 		.run_timeout_ms = 5000, // 5 seconds
 		.func_ptr = uds_rid_check_mem, // user function to check memory
-		.start_time_ms = 0,
-		.server_resp_time_ms = 0
+		.start_time_ms = 0
 	},
 	{ // check programming dependencies
 		.curr_state = UDS_RID_STATE_IDLE,
@@ -415,8 +412,7 @@ static uds_rid_s _rid_arr[] = {
 		.num_diag_sess = sizeof(_all_diag_sess_arr),
 		.run_timeout_ms = 5000, // 5 seconds
 		.func_ptr = uds_rid_check_prog_dependency, // user function to check dependencies
-		.start_time_ms = 0,
-		.server_resp_time_ms = 0
+		.start_time_ms = 0
 	}
 };
 
@@ -445,7 +441,8 @@ uds_cfg_s _uds_cfg = {
 		.write_data_by_id= true,
 		.routine_download= true,
 		.req_transfer_exit= true,
-		.transfer_data= true
+		.transfer_data= true,
+		.read_data_by_id= true
 	},
 
 	// it should be able to hold single uds packet.

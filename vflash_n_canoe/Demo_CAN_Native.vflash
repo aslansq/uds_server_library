@@ -1,0 +1,320 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EcuFlashProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ToolVersion="10.2.10000.0">
+  <TemplateInfo>
+    <AllowSeveralDriver>true</AllowSeveralDriver>
+    <DefaultLengthOfMemorySize>4</DefaultLengthOfMemorySize>
+    <DefaultLengthOfMemoryAddress>4</DefaultLengthOfMemoryAddress>
+    <LogicalBlockSupport>
+      <DefaultLengthOfLogBlockIndex>0</DefaultLengthOfLogBlockIndex>
+      <UseLogicalBlockIndexForWrite>false</UseLogicalBlockIndexForWrite>
+      <UseLogicalBlockIndexForErase>false</UseLogicalBlockIndexForErase>
+      <IgnoreSegmentAddressesFromHexFiles>false</IgnoreSegmentAddressesFromHexFiles>
+    </LogicalBlockSupport>
+    <VersionInfo>
+      <TemplateName>Vector SLP3</TemplateName>
+      <Version>5.1</Version>
+      <ModificationDate>2024-02-07</ModificationDate>
+      <BaseToolVersion>9.0</BaseToolVersion>
+      <CompatibilityToolVersion>9.0</CompatibilityToolVersion>
+      <Protocol>UDS</Protocol>
+      <SpecificationVersion>SLP3</SpecificationVersion>
+      <OEM>Vector</OEM>
+    </VersionInfo>
+    <UseSeedExtension>false</UseSeedExtension>
+    <ODX-F>
+      <ExpectedIdentsSession>
+        <Session>10 03</Session>
+        <Session>10 02</Session>
+      </ExpectedIdentsSession>
+    </ODX-F>
+    <AvailableDatablockTypes>
+      <Type>Driver1</Type>
+      <Type>Driver2</Type>
+      <Type>Data</Type>
+    </AvailableDatablockTypes>
+    <FlashProcessControl>
+      <SupportBaudrateSwitch>false</SupportBaudrateSwitch>
+      <StayInBoot>
+        <SupportStayInBoot>true</SupportStayInBoot>
+        <Configuration>
+          <RequestMessage>043101F518000000</RequestMessage>
+          <Period>5</Period>
+          <StopEvent>ResponseMessageReceived</StopEvent>
+          <ResponseMessage>047101F518</ResponseMessage>
+          <Duration>0</Duration>
+        </Configuration>
+      </StayInBoot>
+      <SupportSecondaryFlexRayConnection>false</SupportSecondaryFlexRayConnection>
+    </FlashProcessControl>
+    <Communication>
+      <SupportSecondaryTargetAddress>false</SupportSecondaryTargetAddress>
+      <SupportDifferentCanIdTypes>true</SupportDifferentCanIdTypes>
+      <SupportDifferentFlexRayTesterAddresses>false</SupportDifferentFlexRayTesterAddresses>
+      <SupportColdstartNode1Payload>false</SupportColdstartNode1Payload>
+      <SupportTesterTCPPortOverride>false</SupportTesterTCPPortOverride>
+      <SupportTesterStaticMACAddress>false</SupportTesterStaticMACAddress>
+    </Communication>
+    <SupportedChecksumMethods />
+    <FlashData>
+      <Protection>
+        <Checksum>
+          <SupportExternalFile>true</SupportExternalFile>
+        </Checksum>
+        <Signature>
+          <SupportExternalFile>true</SupportExternalFile>
+        </Signature>
+      </Protection>
+    </FlashData>
+  </TemplateInfo>
+  <TemplateVersionCodes>
+    <TemplateVersionCode>
+      <Type>DD</Type>
+      <Value>B15377AC58B34680C3E93093BDE7B210</Value>
+    </TemplateVersionCode>
+    <TemplateVersionCode>
+      <Type>S</Type>
+      <Value>8D6A9DAB8E4817D75054C9758F0CD432</Value>
+    </TemplateVersionCode>
+    <TemplateVersionCode>
+      <Type>CV</Type>
+      <Value>EEBB4DD1C0D377887DE3A74E7ADDC0FA</Value>
+    </TemplateVersionCode>
+  </TemplateVersionCodes>
+  <FlashAttributes>
+    <FlashAttribute>
+      <Qualifier>CommunicationControlType</Qualifier>
+      <Value>Enable Rx And Disable Tx</Value>
+      <Mandatory>true</Mandatory>
+      <DefaultValue>Enable Rx And Disable Tx</DefaultValue>
+    </FlashAttribute>
+    <FlashAttribute>
+      <Qualifier>Send_DTCControlOptionRecord</Qualifier>
+      <Value>Yes</Value>
+      <Mandatory>true</Mandatory>
+      <DefaultValue>Yes</DefaultValue>
+    </FlashAttribute>
+    <FlashAttribute>
+      <Qualifier>Send_CheckProgrammingPreconditions</Qualifier>
+      <Value>Yes</Value>
+      <Mandatory>true</Mandatory>
+      <DefaultValue>Yes</DefaultValue>
+    </FlashAttribute>
+  </FlashAttributes>
+  <FaultInjectionAttributes />
+  <FileReferences>
+    <FileReference>
+      <FileType>TemplateGuide</FileType>
+      <FilePath AbsolutePath="C:\Users\mehmet.aslan\Desktop\a\uds_bootloader_server\vflash\Demo_CAN_Native\Template Guide_Vector_SLP3.htm" RelativePath="Demo_CAN_Native\Template Guide_Vector_SLP3.htm" />
+    </FileReference>
+  </FileReferences>
+  <Use-Case>Native Flash</Use-Case>
+  <Scripting>
+    <FlashDB>
+      <FilePath AbsolutePath="C:\Users\mehmet.aslan\Desktop\a\uds_bootloader_server\vflash\Demo_CAN_Native\Vector_SLP3.cdd" RelativePath="Demo_CAN_Native\Vector_SLP3.cdd" />
+    </FlashDB>
+    <ScriptPackage Name="0">
+      <ScriptFile AbsolutePath="C:\Users\mehmet.aslan\Desktop\a\uds_bootloader_server\vflash\Demo_CAN_Native\Script.dll" RelativePath="Demo_CAN_Native\Script.dll" />
+    </ScriptPackage>
+  </Scripting>
+  <Communication>
+    <Ecu>
+      <EcuQualifier>Vector_SLP3</EcuQualifier>
+      <Name>Vector SLP3</Name>
+      <LogicalLink>Diagnostic_CAN</LogicalLink>
+      <CommunicationParam>
+        <Name>Request CAN Id Phys</Name>
+        <Value>0x760</Value>
+        <Unit />
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>Response CAN Id</Name>
+        <Value>0x761</Value>
+        <Unit />
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>Req CAN Id Func</Name>
+        <Value>0x710</Value>
+        <Unit />
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>Baudrate</Name>
+        <Value>1000000</Value>
+        <Unit>Baud</Unit>
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>Secondary Baudrate</Name>
+        <Value>0</Value>
+        <Unit>Baud</Unit>
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>Secondary Target Address</Name>
+        <Value>0x0</Value>
+        <Unit />
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>CAN Id Type Phys</Name>
+        <Value>11</Value>
+        <Unit>Bit</Unit>
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>CAN Id Type Func</Name>
+        <Value>11</Value>
+        <Unit>Bit</Unit>
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>Tseg1</Name>
+        <Value>5</Value>
+        <Unit />
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>Tseg2</Name>
+        <Value>2</Value>
+        <Unit />
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>SJW</Name>
+        <Value>2</Value>
+        <Unit />
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>SAM</Name>
+        <Value>0</Value>
+        <Unit />
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>P2Handling</Name>
+        <Value>Override</Value>
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>P2</Name>
+        <Value>150</Value>
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>P2Star</Name>
+        <Value>5000</Value>
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>StMinHandling</Name>
+        <Value>ECU Challenge</Value>
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>StMinOverride</Name>
+        <Value>0xFFFF</Value>
+      </CommunicationParam>
+      <CommunicationParam>
+        <Name>Max TP Message Length</Name>
+        <Value>4095</Value>
+        <Unit />
+      </CommunicationParam>
+    </Ecu>
+  </Communication>
+  <Configuration>
+    <FlashData>
+      <NativeFlashData>
+        <Datablock>
+          <FilePath AbsolutePath="C:\Users\mehmet.aslan\Desktop\a\uds_bootloader_server\vflash\flash_s12.s19" RelativePath="flash_s12.s19" />
+          <UseForReprogramming>false</UseForReprogramming>
+          <Type>Driver1</Type>
+          <LengthOfLogicalBlockIndex>1</LengthOfLogicalBlockIndex>
+          <LogicalBlockIndex>0</LogicalBlockIndex>
+          <Checksum>
+            <ChecksumPath AbsolutePath="C:\Users\mehmet.aslan\Desktop\a\uds_bootloader_server\vflash\flash_s12.crc" RelativePath="flash_s12.crc" />
+          </Checksum>
+          <Signature />
+          <Segment>
+            <LengthOfMemorySize>4</LengthOfMemorySize>
+            <LengthOfMemoryAddress>4</LengthOfMemoryAddress>
+            <MemoryAddress>0</MemoryAddress>
+          </Segment>
+          <CompressionEncryption>
+            <DataFormatdentifier>0</DataFormatdentifier>
+            <CompressionType>Undefined</CompressionType>
+          </CompressionEncryption>
+        </Datablock>
+        <Datablock>
+          <FilePath />
+          <UseForReprogramming>false</UseForReprogramming>
+          <Type>Driver2</Type>
+          <LengthOfLogicalBlockIndex>1</LengthOfLogicalBlockIndex>
+          <LogicalBlockIndex>0</LogicalBlockIndex>
+          <Checksum>
+            <ChecksumPath AbsolutePath="" RelativePath="" />
+          </Checksum>
+          <Signature />
+          <Segment>
+            <LengthOfMemorySize>4</LengthOfMemorySize>
+            <LengthOfMemoryAddress>4</LengthOfMemoryAddress>
+            <MemoryAddress>0</MemoryAddress>
+          </Segment>
+          <CompressionEncryption>
+            <DataFormatdentifier>0</DataFormatdentifier>
+            <CompressionType>Undefined</CompressionType>
+          </CompressionEncryption>
+        </Datablock>
+        <Datablock>
+          <FilePath AbsolutePath="C:\Users\mehmet.aslan\Desktop\a\uds_bootloader_server\vflash\uds_application_server_blue.hex" RelativePath="uds_application_server_blue.hex" />
+          <UseForReprogramming>true</UseForReprogramming>
+          <Type>Data</Type>
+          <LengthOfLogicalBlockIndex>1</LengthOfLogicalBlockIndex>
+          <LogicalBlockIndex>0</LogicalBlockIndex>
+          <Checksum>
+            <ChecksumPath AbsolutePath="" RelativePath="" />
+          </Checksum>
+          <Signature />
+          <Segment>
+            <LengthOfMemorySize>4</LengthOfMemorySize>
+            <LengthOfMemoryAddress>4</LengthOfMemoryAddress>
+            <MemoryAddress>134283264</MemoryAddress>
+          </Segment>
+          <CompressionEncryption>
+            <DataFormatdentifier>0</DataFormatdentifier>
+            <CompressionType>Undefined</CompressionType>
+          </CompressionEncryption>
+        </Datablock>
+      </NativeFlashData>
+    </FlashData>
+    <Procedure>
+      <SecurityAccess>
+        <SecurityLevel>3</SecurityLevel>
+        <KeyProxy>
+          <SeedKeyDLL AbsolutePath="C:\Users\mehmet.aslan\Desktop\a\uds_bootloader_server\output\seednkey.dll" RelativePath="..\output\seednkey.dll" />
+        </KeyProxy>
+        <Activated>true</Activated>
+      </SecurityAccess>
+      <Param>
+        <Name>TesterSerialNbr</Name>
+        <Unit />
+      </Param>
+    </Procedure>
+    <FlashProcessControl>
+      <BaudrateSwitchActivated>false</BaudrateSwitchActivated>
+      <StayInBoot>
+        <ForceBootMode>false</ForceBootMode>
+        <Configuration>
+          <RequestMessage>043101F518000000</RequestMessage>
+          <Period>5</Period>
+          <StopEvent>ResponseMessageReceived</StopEvent>
+          <ResponseMessage>047101F518</ResponseMessage>
+          <Duration>0</Duration>
+        </Configuration>
+      </StayInBoot>
+      <SecondaryFlexRayConnectionActivated>false</SecondaryFlexRayConnectionActivated>
+      <AllowIncompatibilityFlashware>false</AllowIncompatibilityFlashware>
+      <SecondaryCANConnectionActivated>false</SecondaryCANConnectionActivated>
+    </FlashProcessControl>
+    <CustomActions>
+      <Ecus>
+        <Ecu>
+          <EcuQualifier />
+          <VariantQualifier />
+          <AutomaticVariantIdentificationActivated>false</AutomaticVariantIdentificationActivated>
+          <VariantQualifierPostAction />
+          <AutomaticVariantIdentificationActivatedPostAction>ReuseFromPreAction</AutomaticVariantIdentificationActivatedPostAction>
+        </Ecu>
+      </Ecus>
+      <Assemblies />
+      <Activated>false</Activated>
+      <ForcePostCustomAction>false</ForcePostCustomAction>
+    </CustomActions>
+  </Configuration>
+</EcuFlashProject>

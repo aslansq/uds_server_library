@@ -14,6 +14,7 @@ The library currently supports the following UDS (Unified Diagnostic Services) a
 | Tester Present              | 0x3E       | Keeps diagnostic session alive     |
 | Routine Control             | 0x31       | Executes routines on the ECU       |
 | Write Data By Identifier    | 0x2E       | Writes data to specific IDs        |
+| Read Data By Identifier     | 0x22       | Reads data to specific IDS         |
 | Request Download            | 0x34       | Initiates data download            |
 | Transfer Data               | 0x36       | Transfers data blocks              |
 | Request Transfer Exit       | 0x37       | Ends data transfer session         |
