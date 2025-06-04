@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include "addr.h"
+#include "uds_config.h"
 
 #define UDS_PACKET_RX_BUF_LEN 255
 #define UDS_PACKET_TX_BUF_LEN 32
@@ -154,20 +155,25 @@ typedef struct {
 	uint8_t reserved;
 } sw_version_s;
 
-static sw_version_s _sw_version = {
-	.major = SW_VERSION_MAJOR,
-	.minor = SW_VERSION_MINOR,
-	.patch = SW_VERSION_PATCH,
+static sw_version_s _uds_impl_version = {
+	.major = UDS_MAJOR_VERSION,
+	.minor = UDS_MINOR_VERSION,
+	.patch = UDS_PATCH_VERSION,
 	.reserved = 0
 };
 
-static uint16_t _blink_delay_ms = 0;
+static uint16_t _blink_delay_ms = 50;
+
+uint16_t uds_config_get_blink_delay_ms(void)
+{
+	return _blink_delay_ms;
+}
 
 static uds_did_s _did_arr[] = {
-	{// software version
+	{// uds implementation version
 		.did = 0x2025,
-		.buf_ptr = (uint8_t *)&_sw_version,
-		.buf_size = sizeof(_sw_version),
+		.buf_ptr = (uint8_t *)&_uds_impl_version,
+		.buf_size = sizeof(_uds_impl_version),
 		.write_access = false,
 		.req_security_level = 0,
 		.diag_sess_ptr = _all_diag_sess_arr,
@@ -194,7 +200,8 @@ uds_cfg_s _uds_cfg = {
 		.write_data_by_id= true,
 		.routine_download= false,
 		.req_transfer_exit= false,
-		.transfer_data= false
+		.transfer_data= false,
+		.read_data_by_id= true
 	},
 
 	// it should be able to hold single uds packet.

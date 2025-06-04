@@ -32,6 +32,8 @@ cmb()
 rm -rf $this_dir_path/output
 mkdir -p $this_dir_path/output
 
+rm -f $this_dir_path/application/linux_lib $this_dir_path/application/linux_lib
+
 if [ -f "$this_dir_path/seednkey/build32/Debug/seednkey.dll" ]; then
 	cp $this_dir_path/seednkey/build32/Debug/seednkey.dll $this_dir_path/output/ || ungracefulExit "Failed to copy seednkey.dll"
 fi
