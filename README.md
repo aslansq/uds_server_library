@@ -28,4 +28,4 @@ The UDS implementation itself is not hardware dependent and can be adapted to va
 ## Author & Support
 
 Implementation solely written by me. Contact to get library for your specific ECU.
-mehmet.aslan@asuds.com
+asuds@asuds.com
