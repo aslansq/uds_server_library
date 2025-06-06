@@ -162,7 +162,7 @@ static sw_version_s _uds_impl_version = {
 	.reserved = 0
 };
 
-static uint16_t _blink_delay_ms = 50;
+static uint16_t _blink_delay_ms = 150;
 
 uint16_t uds_config_get_blink_delay_ms(void)
 {

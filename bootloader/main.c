@@ -88,6 +88,8 @@ int main(void)
 	MX_FDCAN1_Init();
 	MX_TIM14_Init();
 
+	HAL_TIM_Base_Start(&_hw.htim14);
+
 	// Initialize hardware
 	__HAL_TIM_ENABLE(&_hw.htim14);
 	can_setup();

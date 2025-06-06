@@ -48,8 +48,8 @@ cp $this_dir_path/application/build/uds_application_server.hex $this_dir_path/ou
 
 cd $this_dir_path/application
 ln -sf $this_dir_path/library $this_dir_path/application/linux_lib || ungracefulExit "Failed to create symbolic link to library"
-cmb -DUSE_LED_GREEN=1 -DUSE_LED_BLUE=1 || ungracefulExit "Failed to build application"
-cp $this_dir_path/application/build/uds_application_server.hex $this_dir_path/output/uds_application_server_green_blue.hex || ungracefulExit "Failed to copy green-blue application server binary"
+cmb -DUSE_LED_GREEN=1 || ungracefulExit "Failed to build application"
+cp $this_dir_path/application/build/uds_application_server.hex $this_dir_path/output/uds_application_server_green.hex || ungracefulExit "Failed to copy green-blue application server binary"
 
 cd $this_dir_path/bootloader
 ln -sf $this_dir_path/library $this_dir_path/bootloader/linux_lib || ungracefulExit "Failed to create symbolic link to library"

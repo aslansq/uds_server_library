@@ -9,6 +9,13 @@
 #define UDS_RESP_ID (0x761)
 #define UDS_REQ_ID (0x760)
 
+typedef enum {
+	LED_BLINK_BLUE,
+	LED_BLINK_GREEN,
+	LED_BLINK_BOTH,
+	LED_BLINK_COUNT
+} led_blink_e;
+
 ecu_handle_s _ecu_handle = {
 	.tx_header = {
 		.Identifier          = UDS_RESP_ID,
@@ -74,10 +81,79 @@ static void can_setup(void)
 	HAL_FDCAN_Start(&_hw.hfdcan1);
 }
 
+static led_blink_e get_led_to_blink(void)
+{
+	static uint64_t btn_timestamp = 0;
+	static bool btn_prev_st = false;
+#if defined(USE_LED_BLUE)
+	static led_blink_e led_blink = LED_BLINK_BLUE;
+#elif defined(USE_LED_GREEN)
+	static led_blink_e led_blink = LED_BLINK_GREEN;
+#endif
+	bool btn_st = hw_read_button();
+
+	if(
+		(btn_st == true) && // button pressed
+		(btn_st != btn_prev_st)) {
+		led_blink++;
+		if(led_blink >= LED_BLINK_COUNT) {
+			led_blink = LED_BLINK_BLUE;
+		}
+
+		btn_timestamp = abs_tim_get();
+	} else if(
+		(btn_st == true) &&
+		(btn_st == btn_prev_st)
+	) { // still holding the button
+		// if button was pressed for more than 5 seconds, imagine that button was stuck
+		if(abs_tim_get_elapsed(btn_timestamp) > 5000) {
+			// trigger a DTC here
+			led_blink = LED_BLINK_COUNT;
+		}
+	}
+
+	btn_prev_st = btn_st;
+
+	return led_blink;
+}
+
+static void led_blink_handler(void)
+{
+	static uint64_t led_timestamp = 0;
+	static bool led_st = true;
+	// blink
+	if(abs_tim_get_elapsed(led_timestamp) >= uds_config_get_blink_delay_ms()) {
+		led_timestamp = abs_tim_get();
+		led_st = !led_st; // toggle led state
+
+		switch(get_led_to_blink()) {
+		case LED_BLINK_BLUE:
+			hw_led_blue_set(led_st);
+			hw_led_green_set(false);
+			break;
+		case LED_BLINK_GREEN:
+			hw_led_blue_set(false);
+			hw_led_green_set(led_st);
+			break;
+		case LED_BLINK_BOTH:
+			// both in same state in same time
+			hw_led_blue_set(led_st);
+			hw_led_green_set(led_st);
+			break;
+		default:
+			// switch between leds
+			hw_led_blue_set(!led_st);
+			hw_led_green_set(led_st);
+			break;
+		}
+	}
+}
+
 int main(void)
 {
 	uint8_t payload_arr[255] = {0};
 	uint16_t out_size = 0;
+
 	int ret;
 
 	HAL_Init();
@@ -86,6 +162,8 @@ int main(void)
 	MX_USART1_UART_Init();
 	MX_FDCAN1_Init();
 	MX_TIM14_Init();
+
+	HAL_TIM_Base_Start(&_hw.htim14);
 
 	can_setup();
 	isotp_init_link(
@@ -108,7 +186,6 @@ int main(void)
 
 	printf("Application started\n");
 	__enable_irq();
-	uint64_t led_timestamp = abs_tim_get();
 
 	while(1) {
 		isotp_poll(&_ecu_handle.isotp_link);
@@ -123,16 +200,7 @@ int main(void)
 		}
 		uds_handler();
 
-		// blink
-		if(abs_tim_get_elapsed(led_timestamp) >= uds_config_get_blink_delay_ms()) {
-			led_timestamp = abs_tim_get();
-#ifdef USE_LED_BLUE
-			HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_9);
-#endif
-#ifdef USE_LED_GREEN
-			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-#endif
-		}
+		led_blink_handler();
 	}
 	return 0;
 }
