@@ -201,6 +201,26 @@ static uds_dtc_s _dtc_arr[] = {
 	}
 };
 
+static void nvm_write(uint32_t addr, const uint8_t *data_ptr, uint16_t data_size)
+{
+	assert(data_ptr != NULL);
+	assert(data_size > 0);
+	assert(addr < ADDR_RAM_NVM_LENGTH);
+
+	uint8_t *nvm_arr = ((uint8_t *)ADDR_RAM_NVM);
+	memcpy(&nvm_arr[addr], data_ptr, data_size);
+}
+
+static void nvm_read(uint32_t addr, uint8_t *data_ptr, uint16_t data_size)
+{
+	assert(data_ptr != NULL);
+	assert(data_size > 0);
+	assert(addr < ADDR_RAM_NVM_LENGTH);
+
+	uint8_t *nvm_arr = ((uint8_t *)ADDR_RAM_NVM);
+	memcpy(data_ptr, &nvm_arr[addr], data_size);
+}
+
 uds_cfg_s _uds_cfg = {
 	.is_serv_en = {
 		.diag_sess_ctrl= true,
@@ -261,6 +281,8 @@ uds_cfg_s _uds_cfg = {
 
 	.dtc_ptr = _dtc_arr,
 	.num_dtc = sizeof(_dtc_arr) / sizeof(uds_dtc_s),
+	.nvm_write_func_ptr = nvm_write,
+	.nvm_read_func_ptr = nvm_read,
 };
 
 uds_handle_s _uds_handle;

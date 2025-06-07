@@ -153,6 +153,69 @@ static void led_blink_handler(void)
 	}
 }
 
+static void nvm_init(void)
+{
+	volatile uint32_t *nvm_uniq_ptr = (uint32_t *)(
+		ADDR_RAM_NVM +
+		ADDR_RAM_NVM_LENGTH -
+		4
+	);
+
+	(void)memcpy(
+		(void *)ADDR_RAM_NVM,
+		(void *)ADDR_NVM,
+		ADDR_RAM_NVM_LENGTH
+	);
+
+	if((*nvm_uniq_ptr) != ADDR_NVM_LAST_UNIQ_WORD) {
+		(void)memset(
+			(void *)ADDR_RAM_NVM,
+			0,
+			ADDR_RAM_NVM_LENGTH
+		);
+		*nvm_uniq_ptr = ADDR_NVM_LAST_UNIQ_WORD;
+	}
+}
+
+static void nvm_update(void)
+{
+	static FLASH_EraseInitTypeDef flash_erase_init_type = {
+		.TypeErase = FLASH_TYPEERASE_PAGES,
+		.Page = ((uint32_t)ADDR_NVM - ADDR_FLASH) / FLASH_PAGE_SIZE,
+		.NbPages = 1
+	};
+	uint32_t page_err = 0xFFFFFFFFU;
+	bool is_different = false;
+	volatile uint64_t *u64_ptr = NULL;
+
+	is_different = memcmp(
+		(void *)ADDR_RAM_NVM,
+		(void *)ADDR_NVM,
+		ADDR_RAM_NVM_LENGTH
+	) == 0 ? false : true;
+
+	if(is_different) {
+		HAL_FLASH_Unlock();
+		__HAL_FLASH_CLEAR_FLAG(
+			FLASH_FLAG_EOP |
+			FLASH_FLAG_PGAERR |
+			FLASH_FLAG_WRPERR |
+			FLASH_FLAG_OPTVERR
+		);
+		HAL_FLASHEx_Erase(&flash_erase_init_type, &page_err);
+		u64_ptr = (uint64_t *)ADDR_RAM_NVM;
+		for(int i = 0; i < (ADDR_RAM_NVM_LENGTH/sizeof(uint64_t)); ++i) {
+			HAL_FLASH_Program(
+				FLASH_TYPEPROGRAM_DOUBLEWORD,
+				ADDR_NVM + (sizeof(uint64_t) * i),
+				*u64_ptr
+			);
+			u64_ptr++;
+		}
+		HAL_FLASH_Lock();
+	}
+}
+
 int main(void)
 {
 	uint8_t payload_arr[255] = {0};
@@ -169,6 +232,7 @@ int main(void)
 
 	HAL_TIM_Base_Start(&_hw.htim14);
 
+	nvm_init();
 	can_setup();
 	isotp_init_link(
 		&_ecu_handle.isotp_link,
@@ -192,6 +256,8 @@ int main(void)
 	__enable_irq();
 
 	while(1) {
+		nvm_update();
+
 		isotp_poll(&_ecu_handle.isotp_link);
 		ret = isotp_receive(
 			&_ecu_handle.isotp_link,

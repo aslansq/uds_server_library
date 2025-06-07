@@ -44,9 +44,11 @@ _Min_Stack_Size = 0x400; /* required amount of stack */
 /* Memories definition */
 MEMORY
 {
-  RAM    (xrw)    : ORIGIN = 0x20000000,   LENGTH = 30716
-  BL_FLAG (rw)    : ORIGIN = 0x200077FC,   LENGTH = 4
-  FLASH   (rx)    : ORIGIN = 0x8010000,    LENGTH = 192K
+  RAM     (xrw)    : ORIGIN = 0x20000000,   LENGTH = 30652
+  NVM_RAM (xrw)    : ORIGIN = 0x200077BC,   LENGTH = 64
+  BL_FLAG  (rw)    : ORIGIN = 0x200077FC,   LENGTH = 4
+  FLASH    (rx)    : ORIGIN = 0x8010000,    LENGTH = 190K
+  NVM_FLASH (r)    : ORIGIN = 0x803F800,    LENGTH = 2K
 }
 
 /* Sections */
@@ -104,6 +106,12 @@ SECTIONS
 
   } >RAM AT> FLASH
 
+  .nvm_flash_section (NOLOAD) :
+  {
+     . = ALIGN(4);
+     KEEP(*(.nvm_flash_s))
+  } > NVM_FLASH
+
   /* Uninitialized data section into "RAM" Ram type memory */
   . = ALIGN(4);
   .bss :
@@ -136,6 +144,12 @@ SECTIONS
     . = ALIGN(4);
     KEEP(*(.bl_flag_s))
   } > BL_FLAG
+
+  .nvm_ram_section (NOLOAD):
+  {
+     . = ALIGN(4);
+     KEEP(*(.nvm_ram_s))
+  } > NVM_RAM
 
   /* Remove information from the compiler libraries */
   /DISCARD/ :

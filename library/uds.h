@@ -123,6 +123,9 @@ typedef void (*uds_req_transfer_exit_cbk_t)(void);
  */
 typedef void (*uds_transfer_data_cbk_t)(void *arg_handle_ptr);
 
+typedef void (*uds_nvm_write_func_t)(uint32_t addr, const uint8_t *data_ptr, uint16_t data_size);
+typedef void (*uds_nvm_read_func_t)(uint32_t addr, uint8_t *data_ptr, uint16_t data_size);
+
 typedef enum {
 	// user implement this
 	UDS_RID_STATE_START,
@@ -354,6 +357,10 @@ typedef struct {
 
 	uds_dtc_s *dtc_ptr; //!< pointer to the DTC list, can be NULL if DTCs are not used
 	int32_t num_dtc; //!< number of DTCs, can be 0 if DTCs are not used
+	/// function pointer for NVM write operations, mandatory if dtc service is enabled
+	uds_nvm_write_func_t nvm_write_func_ptr;
+	/// function pointer for NVM read operations, mandatory if dtc service is enabled
+	uds_nvm_read_func_t nvm_read_func_ptr;
 
 	bool generate_pos_resp_prog;
 	bool generate_pos_resp_extd;
