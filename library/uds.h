@@ -253,6 +253,30 @@ typedef struct {
 	uint64_t mem_addr; //!< memory address where the transfer data will be stored, filled at runtime
 } uds_transfer_data_s;
 
+typedef struct {
+	uint8_t high;
+	uint8_t mid;
+	uint8_t low;
+} uds_dtc_id_s;
+
+typedef union {
+	uint8_t r;
+	struct {
+		uint8_t testFailed : 1;
+		uint8_t testFailedThisOperationCycle : 1;
+		uint8_t pendingDTC : 1;
+		uint8_t confirmedDTC : 1;
+		uint8_t testNotCompletedSinceLastClear : 1;
+		uint8_t testFailedSinceLastClear : 1;
+		uint8_t testNotCompletedThisOperationCycle : 1;
+	} b;
+} uds_dtc_st_u;
+
+typedef struct {
+	uds_dtc_st_u status;
+	uds_dtc_id_s id; //!< DTC identifier
+} uds_dtc_s;
+
 /**
  * @brief Structure representing the enabled UDS services.
  * This structure uses bit fields to indicate which UDS services are enabled.
@@ -268,6 +292,7 @@ typedef struct {
 	uint32_t routine_download : 1;
 	uint32_t req_transfer_exit : 1;
 	uint32_t transfer_data : 1;
+	uint32_t read_dtc_info : 1;
 } uds_is_serv_en_s; //!< Is service enabled?
 
 /**
@@ -327,6 +352,9 @@ typedef struct {
 	uint8_t startup_security_level; //!< Security level at startup
 	uint8_t startup_diag_sess; //!< Diagnostic session at startup
 
+	uds_dtc_s *dtc_ptr; //!< pointer to the DTC list, can be NULL if DTCs are not used
+	int32_t num_dtc; //!< number of DTCs, can be 0 if DTCs are not used
+
 	bool generate_pos_resp_prog;
 	bool generate_pos_resp_extd;
 } uds_cfg_s;
@@ -354,6 +382,8 @@ typedef struct {
 
 	uint8_t bsc; //!< block sequence counter for transfer data
 	uint64_t transfer_data_addr; //!< address for transfer data, used in transfer data service
+
+	uds_dtc_st_u dtc_available_st_mask; //!< DTC available status mask
 } uds_handle_s;
 
 /**
@@ -406,6 +436,11 @@ uint8_t uds_x_get_diag_sess(uds_handle_s *handle_ptr);
  */
 uint8_t uds_x_get_security_level(uds_handle_s *handle_ptr);
 
+void uds_x_set_dtc_st(
+	uds_handle_s *handle_ptr,
+	int32_t dtc_idx,
+	bool triggered
+);
 
 /**
  * The functions below are wrappers for uds_x_*
@@ -425,6 +460,10 @@ void uds_handler(void);
 void uds_put_packet_in(uint8_t *data_ptr, uint8_t data_size);
 uint8_t uds_get_diag_sess(void);
 uint8_t uds_get_security_level(void);
+void uds_set_dtc_st(
+	int32_t dtc_idx,
+	bool triggered
+);
 
 extern uds_cfg_s _uds_cfg;
 extern uds_handle_s _uds_handle;

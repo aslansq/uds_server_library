@@ -18,6 +18,8 @@ The library currently supports the following UDS (Unified Diagnostic Services) a
 | Request Download            | 0x34       | Initiates data download            |
 | Transfer Data               | 0x36       | Transfers data blocks              |
 | Request Transfer Exit       | 0x37       | Ends data transfer session         |
+| Read DTC Info*              | 0x19       | Read DTC info                      |
+* See all available subfunctions under [library/README.md](library/README.md)
 
 Additional services can be integrated as needed.
 

@@ -190,6 +190,17 @@ static uds_did_s _did_arr[] = {
 	}
 };
 
+static uds_dtc_s _dtc_arr[] = {
+	{
+		.status.r = 0,
+		.id = {
+			.high = 0x81,
+			.mid = 0x23,
+			.low = 0x9e
+		}
+	}
+};
+
 uds_cfg_s _uds_cfg = {
 	.is_serv_en = {
 		.diag_sess_ctrl= true,
@@ -201,7 +212,8 @@ uds_cfg_s _uds_cfg = {
 		.routine_download= false,
 		.req_transfer_exit= false,
 		.transfer_data= false,
-		.read_data_by_id= true
+		.read_data_by_id= true,
+		.read_dtc_info= true
 	},
 
 	// it should be able to hold single uds packet.
@@ -246,6 +258,9 @@ uds_cfg_s _uds_cfg = {
 
 	.generate_pos_resp_prog = false,
 	.generate_pos_resp_extd = false,
+
+	.dtc_ptr = _dtc_arr,
+	.num_dtc = sizeof(_dtc_arr) / sizeof(uds_dtc_s),
 };
 
 uds_handle_s _uds_handle;

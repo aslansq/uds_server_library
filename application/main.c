@@ -109,6 +109,10 @@ static led_blink_e get_led_to_blink(void)
 		if(abs_tim_get_elapsed(btn_timestamp) > 5000) {
 			// trigger a DTC here
 			led_blink = LED_BLINK_COUNT;
+			uds_set_dtc_st(
+				0, // DTC index, 0 is the first DTC
+				true // set the DTC as triggered
+			);
 		}
 	}
 

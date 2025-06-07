@@ -10,3 +10,5 @@
 	- Request Download
 	- Transfer Data
 	- Request Transfer Exit
+	- Read DTC info
+		- By Status Mask
