@@ -280,6 +280,15 @@ typedef struct {
 	uds_dtc_id_s id; //!< DTC identifier
 } uds_dtc_s;
 
+typedef struct {
+	uds_dtc_s *dtc_ptr; //!< pointer to the DTC list, can be NULL if DTCs are not used
+	int32_t num_dtc; //!< number of DTCs, can be 0 if DTCs are not used
+	/// function pointer for NVM write operations, mandatory if dtc service is enabled
+	uds_nvm_write_func_t nvm_write_func_ptr;
+	/// function pointer for NVM read operations, mandatory if dtc service is enabled
+	uds_nvm_read_func_t nvm_read_func_ptr;
+} uds_dtc_cfg_s;
+
 /**
  * @brief Structure representing the enabled UDS services.
  * This structure uses bit fields to indicate which UDS services are enabled.
@@ -355,12 +364,7 @@ typedef struct {
 	uint8_t startup_security_level; //!< Security level at startup
 	uint8_t startup_diag_sess; //!< Diagnostic session at startup
 
-	uds_dtc_s *dtc_ptr; //!< pointer to the DTC list, can be NULL if DTCs are not used
-	int32_t num_dtc; //!< number of DTCs, can be 0 if DTCs are not used
-	/// function pointer for NVM write operations, mandatory if dtc service is enabled
-	uds_nvm_write_func_t nvm_write_func_ptr;
-	/// function pointer for NVM read operations, mandatory if dtc service is enabled
-	uds_nvm_read_func_t nvm_read_func_ptr;
+	uds_dtc_cfg_s dtc;
 
 	bool generate_pos_resp_prog;
 	bool generate_pos_resp_extd;

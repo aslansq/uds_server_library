@@ -190,8 +190,12 @@ static uds_did_s _did_arr[] = {
 	}
 };
 
-static uds_dtc_s _dtc_arr[] = {
-	{
+typedef struct {
+	uds_dtc_s dtc_arr[UDS_CONFIG_DTC_IDX_COUNT];
+} uds_config_dtc_arr_wrapper_s;
+
+static uds_config_dtc_arr_wrapper_s _dtc_arr_wrap = {
+	.dtc_arr[UDS_CONFIG_DTC_IDX_BUTTON_STUCK] = {
 		.status.r = 0,
 		.id = {
 			.high = 0x81,
@@ -279,10 +283,12 @@ uds_cfg_s _uds_cfg = {
 	.generate_pos_resp_prog = false,
 	.generate_pos_resp_extd = false,
 
-	.dtc_ptr = _dtc_arr,
-	.num_dtc = sizeof(_dtc_arr) / sizeof(uds_dtc_s),
-	.nvm_write_func_ptr = nvm_write,
-	.nvm_read_func_ptr = nvm_read,
+	.dtc = {
+		.dtc_ptr = _dtc_arr_wrap.dtc_arr,
+		.num_dtc = sizeof(_dtc_arr_wrap.dtc_arr) / sizeof(uds_dtc_s),
+		.nvm_write_func_ptr = nvm_write,
+		.nvm_read_func_ptr = nvm_read
+	}
 };
 
 uds_handle_s _uds_handle;

@@ -110,7 +110,7 @@ static led_blink_e get_led_to_blink(void)
 			// trigger a DTC here
 			led_blink = LED_BLINK_COUNT;
 			uds_set_dtc_st(
-				0, // DTC index, 0 is the first DTC
+				UDS_CONFIG_DTC_IDX_BUTTON_STUCK,
 				true // set the DTC as triggered
 			);
 		}
