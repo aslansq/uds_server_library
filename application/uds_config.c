@@ -237,7 +237,8 @@ uds_cfg_s _uds_cfg = {
 		.req_transfer_exit= false,
 		.transfer_data= false,
 		.read_data_by_id= true,
-		.read_dtc_info= true
+		.read_dtc_info= true,
+		.clear_dtc_info = true
 	},
 
 	// it should be able to hold single uds packet.

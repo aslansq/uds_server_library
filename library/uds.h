@@ -305,6 +305,7 @@ typedef struct {
 	uint32_t req_transfer_exit : 1;
 	uint32_t transfer_data : 1;
 	uint32_t read_dtc_info : 1;
+	uint32_t clear_dtc_info : 1;
 } uds_is_serv_en_s; //!< Is service enabled?
 
 /**
