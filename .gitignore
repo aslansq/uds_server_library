@@ -4,3 +4,5 @@ build32/
 application/linux_lib
 bootloader/linux_lib
 library/library
+vflash_n_canoe/*.log
+output/
