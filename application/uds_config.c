@@ -226,8 +226,8 @@ static uds_config_dtc_arr_wrapper_s _dtc_arr_wrap = {
 			.mid = 0x23,
 			.low = 0x9e
 		},
-		.snapshot_did_idx_ptr = _dtc_button_stuck_did_idx_arr,
-		.num_of_snapshots = sizeof(_dtc_button_stuck_did_idx_arr) / sizeof(uint16_t)
+		.snap_did_idx_ptr = _dtc_button_stuck_did_idx_arr,
+		.num_of_snaps = sizeof(_dtc_button_stuck_did_idx_arr) / sizeof(uint16_t)
 	}
 };
 

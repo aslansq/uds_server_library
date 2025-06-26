@@ -278,8 +278,8 @@ typedef union {
 typedef struct {
 	uds_dtc_st_u status;
 	uds_dtc_id_s id; //!< DTC identifier
-	uint16_t *snapshot_did_idx_ptr; //!< pointer to the snapshot DID indexes, can be NULL if no snapshot
-	uint16_t num_of_snapshots; //!< size of the snapshot DID index, can be 0 if no snapshot
+	uint16_t *snap_did_idx_ptr; //!< pointer to the snap DID indexes, can be NULL if no snap
+	uint16_t num_of_snaps; //!< size of the snap DID index, can be 0 if no snap
 } uds_dtc_s;
 
 typedef struct {
