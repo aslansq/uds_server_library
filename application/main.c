@@ -216,6 +216,12 @@ static void nvm_update(void)
 	}
 }
 
+static void update_did_bufs(void)
+{
+	uint64_t ecu_on_time = abs_tim_get();
+	uds_config_set_ecu_on_time_ms(ecu_on_time);
+}
+
 int main(void)
 {
 	uint8_t payload_arr[255] = {0};
@@ -271,6 +277,8 @@ int main(void)
 		uds_handler();
 
 		led_blink_handler();
+
+		update_did_bufs();
 	}
 	return 0;
 }

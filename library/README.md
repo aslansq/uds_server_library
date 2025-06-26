@@ -12,4 +12,5 @@
 	- Request Transfer Exit
 	- Read DTC info
 		- By Status Mask
+		- Report DTC Snapshot By DTC number
 	- Clear Diagnostic Info

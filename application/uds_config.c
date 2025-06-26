@@ -169,8 +169,19 @@ uint16_t uds_config_get_blink_delay_ms(void)
 	return _blink_delay_ms;
 }
 
-static uds_did_s _did_arr[] = {
-	{// uds implementation version
+static double _ecu_on_time_ms = 0;
+
+void uds_config_set_ecu_on_time_ms(uint64_t on_time_ms)
+{
+	_ecu_on_time_ms = (double)on_time_ms;
+}
+
+typedef struct {
+	uds_did_s did_arr[UDS_CONFIG_DID_IDX_COUNT];
+} uds_config_did_arr_wrapper_s;
+
+static uds_config_did_arr_wrapper_s _did_arr_wrap = {
+	.did_arr[UDS_CONFIG_DID_IDX_IMPL_VERSION] = {
 		.did = 0x2025,
 		.buf_ptr = (uint8_t *)&_uds_impl_version,
 		.buf_size = sizeof(_uds_impl_version),
@@ -179,12 +190,21 @@ static uds_did_s _did_arr[] = {
 		.diag_sess_ptr = _all_diag_sess_arr,
 		.num_diag_sess = sizeof(_all_diag_sess_arr)
 	},
-	{
+	.did_arr[UDS_CONFIG_DID_IDX_BLINK_DELAY] = {
 		.did = 0x2026,
 		.buf_ptr = (uint8_t *)&_blink_delay_ms,
 		.buf_size = sizeof(_blink_delay_ms),
 		.write_access = true,
 		.req_security_level = SECURITY_ACCESS_CALIB_SEED,
+		.diag_sess_ptr = _all_diag_sess_arr,
+		.num_diag_sess = sizeof(_all_diag_sess_arr)
+	},
+	.did_arr[UDS_CONFIG_DID_IDX_ON_TIME] = {
+		.did = 0x2027,
+		.buf_ptr = (uint8_t *)&_ecu_on_time_ms,
+		.buf_size = sizeof(_ecu_on_time_ms),
+		.write_access = false,
+		.req_security_level = 0,
 		.diag_sess_ptr = _all_diag_sess_arr,
 		.num_diag_sess = sizeof(_all_diag_sess_arr)
 	}
@@ -194,6 +214,10 @@ typedef struct {
 	uds_dtc_s dtc_arr[UDS_CONFIG_DTC_IDX_COUNT];
 } uds_config_dtc_arr_wrapper_s;
 
+uint16_t _dtc_button_stuck_did_idx_arr[] = {
+	UDS_CONFIG_DID_IDX_ON_TIME
+};
+
 static uds_config_dtc_arr_wrapper_s _dtc_arr_wrap = {
 	.dtc_arr[UDS_CONFIG_DTC_IDX_BUTTON_STUCK] = {
 		.status.r = 0,
@@ -201,7 +225,9 @@ static uds_config_dtc_arr_wrapper_s _dtc_arr_wrap = {
 			.high = 0x81,
 			.mid = 0x23,
 			.low = 0x9e
-		}
+		},
+		.snapshot_did_idx_ptr = _dtc_button_stuck_did_idx_arr,
+		.num_of_snapshots = sizeof(_dtc_button_stuck_did_idx_arr) / sizeof(uint16_t)
 	}
 };
 
@@ -275,8 +301,8 @@ uds_cfg_s _uds_cfg = {
 	.rid_ptr = NULL,
 	.num_rid = -1,
 
-	.did_ptr = _did_arr,
-	.num_did = sizeof(_did_arr) / sizeof(uds_did_s),
+	.did_ptr = _did_arr_wrap.did_arr,
+	.num_did = UDS_CONFIG_DID_IDX_COUNT,
 
 	.startup_diag_sess = UDS_DIAG_SESS_DEFAULT,
 	.startup_security_level = 0,
