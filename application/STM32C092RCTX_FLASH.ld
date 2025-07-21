@@ -47,7 +47,7 @@ MEMORY
   RAM     (xrw)    : ORIGIN = 0x20000000,   LENGTH = 30652
   NVM_RAM (xrw)    : ORIGIN = 0x200077BC,   LENGTH = 64
   BL_FLAG  (rw)    : ORIGIN = 0x200077FC,   LENGTH = 4
-  FLASH    (rx)    : ORIGIN = 0x8010000,    LENGTH = 190K
+  FLASH    (rx)    : ORIGIN = 0x8010100,    LENGTH = 194304
   NVM_FLASH (r)    : ORIGIN = 0x803F800,    LENGTH = 2K
 }
 

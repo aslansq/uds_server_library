@@ -2,20 +2,30 @@
 #define ADDR_H
 
 #include <stdint.h>
+#include "pak.h"
 
 #define ADDR_RAM 0x20000000
 #define ADDR_RAM_LENGTH  30652
+
 #define ADDR_RAM_NVM 0x200077BC
 #define ADDR_RAM_NVM_LENGTH  64
+
 #define ADDR_BL_FLAG 0x200077FC
+
 #define ADDR_FLASH 0x8000000
-#define ADDR_FLASH_LENGTH  65536
-#define ADDR_APP 0x8010000
-#define ADDR_APP_LENGTH  (190*1024)
+
+#define ADDR_METADATA 0x80100000
+#define ADDR_METADATA_LENGTH  256
+#define ADDR_METADATA_PTR ((volatile pak_app_info_t *)ADDR_METADATA)
+
+#define ADDR_APP 0x8010100
+#define ADDR_APP_LENGTH  194304 // (190*1024) - 256
+
 #define ADDR_NVM 0x803F800
 #define ADDR_NVM_LENGTH  (2048)
 
 #define ADDR_BL_FLAG_PTR ((volatile uint32_t *)ADDR_BL_FLAG)
+
 #define ADDR_BL_FLAG_NONE 0
 #define ADDR_BL_FLAG_SWITCH_PROG_SESS 123
 #define ADDR_BL_FLAG_SWITCH_EXTD_SESS 456

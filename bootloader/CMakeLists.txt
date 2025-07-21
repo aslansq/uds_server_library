@@ -34,6 +34,7 @@ else()
 endif()
 
 set(cube_path "${CMAKE_CURRENT_SOURCE_DIR}/../STM32CubeC0")
+set(pak_path "${CMAKE_CURRENT_SOURCE_DIR}/../app_pak")
 set(build_flags "")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -103,6 +104,7 @@ target_include_directories(
     ${prj_name}
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
+    "${pak_path}"
     "${cube_path}/Drivers/STM32C0xx_HAL_Driver/Inc"
     "${cube_path}/Drivers/STM32C0xx_HAL_Driver/Inc/Legacy"
     "${cube_path}/Drivers/CMSIS/Include"

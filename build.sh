@@ -1,6 +1,11 @@
 this_path=$(realpath "$0")
 this_dir_path=$(dirname "$this_path")
 is_debug_build=0
+software_version_major=1
+software_version_minor=0
+software_version_patch=0
+builder_fingerprint=1234
+vector_table_offset=256
 
 echoerr() { echo "$@" 1>&2; }
 
@@ -29,8 +34,16 @@ cmb()
 	echo "Build completed successfully."
 }
 
+cd $this_dir_path/app_pak
+
+cmb || ungracefulExit "Failed to build app_pak"
+
+cd $this_dir_path
+
 rm -rf $this_dir_path/output
 mkdir -p $this_dir_path/output
+
+cp $this_dir_path/app_pak/build/pak $this_dir_path/output/ || ungracefulExit "Failed to copy pak file"
 
 rm -f $this_dir_path/application/linux_lib $this_dir_path/application/linux_lib
 
@@ -45,11 +58,25 @@ cd $this_dir_path/application
 ln -sf $this_dir_path/library $this_dir_path/application/linux_lib || ungracefulExit "Failed to create symbolic link to library"
 cmb -DUSE_LED_BLUE=1 || ungracefulExit "Failed to build application"
 cp $this_dir_path/application/build/uds_application_server.hex $this_dir_path/output/uds_application_server_blue.hex || ungracefulExit "Failed to copy blue application server binary"
+cp $this_dir_path/application/build/uds_application_server.bin $this_dir_path/output/uds_application_server_blue.bin || ungracefulExit "Failed to copy blue application server binary"
+cd $this_dir_path/output
+./pak -m $software_version_major -n $software_version_minor -p $software_version_patch \
+-i uds_application_server_blue.bin \
+-t $vector_table_offset \
+-o uds_application_server_blue_pak.bin \
+-f $builder_fingerprint
 
 cd $this_dir_path/application
 ln -sf $this_dir_path/library $this_dir_path/application/linux_lib || ungracefulExit "Failed to create symbolic link to library"
 cmb -DUSE_LED_GREEN=1 || ungracefulExit "Failed to build application"
 cp $this_dir_path/application/build/uds_application_server.hex $this_dir_path/output/uds_application_server_green.hex || ungracefulExit "Failed to copy green-blue application server binary"
+cp $this_dir_path/application/build/uds_application_server.bin $this_dir_path/output/uds_application_server_green.bin || ungracefulExit "Failed to copy green-blue application server binary"
+cd $this_dir_path/output
+./pak -m $software_version_major -n $software_version_minor -p $software_version_patch \
+-i uds_application_server_green.bin \
+-t $vector_table_offset \
+-o uds_application_server_green_pak.bin \
+-f $builder_fingerprint
 
 cd $this_dir_path/bootloader
 ln -sf $this_dir_path/library $this_dir_path/bootloader/linux_lib || ungracefulExit "Failed to create symbolic link to library"

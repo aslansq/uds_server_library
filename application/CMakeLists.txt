@@ -34,6 +34,7 @@ else()
 endif()
 
 set(cube_path "${CMAKE_CURRENT_SOURCE_DIR}/../STM32CubeC0")
+set(pak_path "${CMAKE_CURRENT_SOURCE_DIR}/../app_pak")
 set(build_flags "")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -53,10 +54,6 @@ if(USE_LED_GREEN)
     message(STATUS "Using green LED")
     set(build_flags "${build_flags} -DUSE_LED_GREEN")
 endif()
-
-set(version_major "1")
-set(version_minor "0")
-set(version_patch "0")
 
 set(CMAKE_C_FLAGS  "-mcpu=cortex-m0plus \
                     -std=gnu11 \
@@ -110,14 +107,20 @@ add_executable(
 )
 
 add_custom_command(TARGET ${prj_name} POST_BUILD
-	COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${prj_name}> ${prj_name}.hex
-	COMMENT "Generating HEX file"
+    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${prj_name}> ${prj_name}.hex
+    COMMENT "Generating HEX file"
+)
+
+add_custom_command(TARGET ${prj_name} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${prj_name}> ${prj_name}.bin
+    COMMENT "Generating BIN file"
 )
 
 target_include_directories(
     ${prj_name}
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
+    "${pak_path}"
     "${cube_path}/Drivers/STM32C0xx_HAL_Driver/Inc"
     "${cube_path}/Drivers/STM32C0xx_HAL_Driver/Inc/Legacy"
     "${cube_path}/Drivers/CMSIS/Include"

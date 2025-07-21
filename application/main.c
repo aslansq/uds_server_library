@@ -89,6 +89,8 @@ static led_blink_e get_led_to_blink(void)
 	static led_blink_e led_blink = LED_BLINK_BLUE;
 #elif defined(USE_LED_GREEN)
 	static led_blink_e led_blink = LED_BLINK_GREEN;
+#else
+	static led_blink_e led_blink = LED_BLINK_BOTH;
 #endif
 	bool btn_st = hw_read_button();
 
